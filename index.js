@@ -9,38 +9,55 @@
  */
 
 const wordCounter = (text) => {
-  const count = {
 
+  let count = {
+    words: 0,
+    characters: 0,
+    sentences: 0,
+    currentWordLength: 0,
+    longestWord: '',
+    averageWordLength: 0
   };
-  let textLenght = text.length;
-  console.log('Longitud Media de las palabras: ', textLenght)
-  let countWordsCharacters = 0;
-  let countWords = 0;
-  let countSentences = 0;
-  let currentWordLength = 0;
-  let promWordLength = 0;
-  let longerWord = '';
 
-  for (let i = 0; i < textLenght; i++) {
-    if (text[i] === ' ') {
-      countWords += 1;
+  let i = 0;
+
+  while (i <= text.length) {
+    if ((text[i] === ' ' && text[i] !== '.') || (i === text.length && text[i] !== '.')) {
+      i !== text.length ? count.words += 1 : count.words += 1;
+
+      if (count.currentWordLength > count.longestWord.length) {
+        if (i === text.length && text[i - 1] === '.') {
+          count.longestWord = text.slice(i - count.currentWordLength - 1, i - 1);
+        } else {
+          count.longestWord = text.slice(i - count.currentWordLength, i);
+        }
+      }
+      count.currentWordLength = 0;
     }
 
-    if(text[i] === '.'){
-      countSentences += 1;
+    if (text[i] === '.') {
+      count.sentences += 1;
     }
 
-    if(text[i] !== ' ' && text[i] === '.') {
-      countWordsCharacters += 1;
-      currentWordLength += 1;
+    if (text[i] !== ' ' && text[i] !== '.' && i !== text.length) {
+      count.characters += 1;
+      count.currentWordLength += 1;
     }
+    i++;
   }
 
-  console.log('Total de Palabras: ', countWords);
-  console.log('Longitud Media de las palabras: ', promWordLength);
-  console.log('Total de Oraciones: ', countSentences);
-  console.log('Palabra más larga: ', longerWord);
+  count.words = text.length > 0 ? count.words : 0;
+  count.averageWordLength = text.length > 0 ? count.characters / count.words : 0;
 
+  return count;
 }
 
-wordCounter('Hola Mundo');
+const btnClick = () => {
+  const text = document.getElementById('text').value;
+  const count = wordCounter(text);
+
+  document.getElementById('words-count').textContent = count.words;
+  document.getElementById('average-word-size').textContent = count.averageWordLength.toFixed(2);
+  document.getElementById('sentences-count').textContent = count.sentences;
+  document.getElementById('longest-word').textContent = count.longestWord.length > 0 ? count.longestWord : 'None';
+}
