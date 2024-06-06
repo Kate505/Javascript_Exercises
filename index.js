@@ -21,7 +21,21 @@ const wordCounter = (text) => {
 
   let i = 0;
 
+  let espacios = text.match(/\s/g);
+  let counter1 = espacios ? espacios.length : 0;
+  console.log(counter1);
+
+  let caracteres = text.match(/\S/g);
+  let counter2 = caracteres ? caracteres.length : 0;
+  console.log(counter2);
+
+  let symbols = text.match(/\W/g);
+  let counter3 = symbols ? symbols.length : 0;
+  console.log(counter3);
+
   while (i <= text.length) {
+
+    console.log('Hay espacios: ', /\s/g.test(text[i]));
     if ((text[i] === ' ' && text[i] !== '.') || (i === text.length && text[i] !== '.')) {
       i !== text.length ? count.words += 1 : count.words += 1;
 
