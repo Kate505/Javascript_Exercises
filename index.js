@@ -15,53 +15,18 @@ const wordCounter = (text) => {
     characters: 0,
     sentences: 0,
     currentWordLength: 0,
-    longestWord: '',
+    longestWord: [],
+    longestWordLength: 0,
     averageWordLength: 0
   };
 
-  let i = 0;
+  text.split('').forEach(t => {
+    /\s/.test(t) === true ? count.words += 1 : 0;
+    /[A-Za-zÁÉÍÓÚáéíóúüÜÑñ]/.test(t) === true ? count.characters += 1 : 0;
+  })
 
-  let espacios = text.match(/\s/g);
-  let counter1 = espacios ? espacios.length : 0;
-  console.log(counter1);
-
-  let caracteres = text.match(/\S/g);
-  let counter2 = caracteres ? caracteres.length : 0;
-  console.log(counter2);
-
-  let symbols = text.match(/\W/g);
-  let counter3 = symbols ? symbols.length : 0;
-  console.log(counter3);
-
-  while (i <= text.length) {
-
-    console.log('Hay espacios: ', /\s/g.test(text[i]));
-    if ((text[i] === ' ' && text[i] !== '.') || (i === text.length && text[i] !== '.')) {
-      i !== text.length ? count.words += 1 : count.words += 1;
-
-      if (count.currentWordLength > count.longestWord.length) {
-        if (i === text.length && text[i - 1] === '.') {
-          count.longestWord = text.slice(i - count.currentWordLength - 1, i - 1);
-        } else {
-          count.longestWord = text.slice(i - count.currentWordLength, i);
-        }
-      }
-      count.currentWordLength = 0;
-    }
-
-    if (text[i] === '.') {
-      count.sentences += 1;
-    }
-
-    if (text[i] !== ' ' && text[i] !== '.' && i !== text.length) {
-      count.characters += 1;
-      count.currentWordLength += 1;
-    }
-    i++;
-  }
-
-  count.words = text.length > 0 ? count.words : 0;
-  count.averageWordLength = text.length > 0 ? count.characters / count.words : 0;
+  console.log('Palabras: ', count.words);
+  console.log('Characters: ', count.characters);
 
   return count;
 }
