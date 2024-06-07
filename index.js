@@ -20,12 +20,8 @@ const wordCounter = (text) => {
     averageWordLength: 0
   };
 
-  text.split('').forEach(t => {
-    /\s/.test(t) === true ? count.words += 1 : 0;
-    /[A-Za-zÁÉÍÓÚáéíóúüÜÑñ]/.test(t) === true ? count.characters += 1 : 0;
-  })
+  count.characters = text.match(/[a-záéíóúüñ]/gi).length;
 
-  console.log('Palabras: ', count.words);
   console.log('Characters: ', count.characters);
 
   return count;
