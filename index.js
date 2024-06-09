@@ -1,13 +1,3 @@
-/*
- * Crea un algoritmo que analice texto y obtenga:
- * - Número total de palabras.
- * - Longitud media de las palabras.
- * - Número de oraciones del texto (cada vez que aparecen un punto).
- * - Encuentre la palabra más larga.
- *
- * Todo esto utilizando un único bucle.
- */
-
 const wordCounter = (text) => {
 
   let count = {
@@ -16,13 +6,13 @@ const wordCounter = (text) => {
     sentences: 0,
     currentWordLength: 0,
     longestWord: [],
-    longestWordLength: 0,
     averageWordLength: 0
   };
 
-  count.characters = text.match(/[a-záéíóúüñ]/gi).length;
-
-  console.log('Characters: ', count.characters);
+  count.characters = (text.match(/[a-záéíóúüñ]/gi) || []).length;
+  count.words = (text.match(/[a-zA-ZÀ-ÿ]+(?:'[a-z]+)?/gi) || []).length;
+  count.sentences = (text.match(/\w[;.?!](\s|$)/g) || []).length;
+  count.averageWordLength = count.characters / count.words;
 
   return count;
 }
