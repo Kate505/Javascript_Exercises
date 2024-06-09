@@ -1,12 +1,21 @@
-/*
- * Crea un algoritmo que analice texto y obtenga:
- * - Número total de palabras.
- * - Longitud media de las palabras.
- * - Número de oraciones del texto (cada vez que aparecen un punto).
- * - Encuentre la palabra más larga.
- *
- * Todo esto utilizando un único bucle.
- */
+function findLongestWords(words) {
+  let currentWordLength = 0;
+  let longestWords = [];
+
+  for (const word of words) {
+    const length = word.length;
+    if (length > currentWordLength) {
+      currentWordLength = length;
+      longestWords = [word];
+    } else if (length === currentWordLength) {
+      if (!longestWords.includes(word)) {
+        longestWords.push(word);
+      }
+    }
+  }
+
+  return longestWords.join(", ");
+}
 
 const wordCounter = (text) => {
 
@@ -14,54 +23,15 @@ const wordCounter = (text) => {
     words: 0,
     characters: 0,
     sentences: 0,
-    currentWordLength: 0,
-    longestWord: '',
+    longestWord: [],
     averageWordLength: 0
   };
 
-  let i = 0;
-
-  let espacios = text.match(/\s/g);
-  let counter1 = espacios ? espacios.length : 0;
-  console.log(counter1);
-
-  let caracteres = text.match(/\S/g);
-  let counter2 = caracteres ? caracteres.length : 0;
-  console.log(counter2);
-
-  let symbols = text.match(/\W/g);
-  let counter3 = symbols ? symbols.length : 0;
-  console.log(counter3);
-
-  while (i <= text.length) {
-
-    console.log('Hay espacios: ', /\s/g.test(text[i]));
-    if ((text[i] === ' ' && text[i] !== '.') || (i === text.length && text[i] !== '.')) {
-      i !== text.length ? count.words += 1 : count.words += 1;
-
-      if (count.currentWordLength > count.longestWord.length) {
-        if (i === text.length && text[i - 1] === '.') {
-          count.longestWord = text.slice(i - count.currentWordLength - 1, i - 1);
-        } else {
-          count.longestWord = text.slice(i - count.currentWordLength, i);
-        }
-      }
-      count.currentWordLength = 0;
-    }
-
-    if (text[i] === '.') {
-      count.sentences += 1;
-    }
-
-    if (text[i] !== ' ' && text[i] !== '.' && i !== text.length) {
-      count.characters += 1;
-      count.currentWordLength += 1;
-    }
-    i++;
-  }
-
-  count.words = text.length > 0 ? count.words : 0;
-  count.averageWordLength = text.length > 0 ? count.characters / count.words : 0;
+  count.characters = (text.match(/[a-záéíóúüñ]/gi) || []).length;
+  count.words = (text.match(/[a-zA-ZÀ-ÿ]+(?:'[a-z]+)?/gi) || []).length;
+  count.sentences = (text.match(/[^.!?]+[.!?]*(?=\s|$|[^a-zA-ZÀ-ÿ])/g) || []).length;
+  count.averageWordLength = count.characters / count.words;
+  count.longestWord = findLongestWords(text.match(/[a-zA-ZÀ-ÿ]+(?:'[a-z]+)?/gi) || []);
 
   return count;
 }
