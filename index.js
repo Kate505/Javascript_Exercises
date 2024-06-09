@@ -3,7 +3,7 @@
  * - Número total de palabras.
  * - Longitud media de las palabras.
  * - Número de oraciones del texto (cada vez que aparecen un punto).
- * - Encuentre la palabra más larga.
+ * - Encuentre la o las palabras más largas.
  *
  * Todo esto utilizando un único bucle.
  */
