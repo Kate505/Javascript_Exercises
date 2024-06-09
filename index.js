@@ -1,18 +1,37 @@
+function findLongestWords(words) {
+  let currentWordLength = 0;
+  let longestWords = [];
+
+  for (const word of words) {
+    const length = word.length;
+    if (length > currentWordLength) {
+      currentWordLength = length;
+      longestWords = [word];
+    } else if (length === currentWordLength) {
+      if (!longestWords.includes(word)) {
+        longestWords.push(word);
+      }
+    }
+  }
+
+  return longestWords.join(", ");
+}
+
 const wordCounter = (text) => {
 
   let count = {
     words: 0,
     characters: 0,
     sentences: 0,
-    currentWordLength: 0,
     longestWord: [],
     averageWordLength: 0
   };
 
   count.characters = (text.match(/[a-záéíóúüñ]/gi) || []).length;
   count.words = (text.match(/[a-zA-ZÀ-ÿ]+(?:'[a-z]+)?/gi) || []).length;
-  count.sentences = (text.match(/\w[;.?!](\s|$)/g) || []).length;
+  count.sentences = (text.match(/[^.!?]+[.!?]*(?=\s|$|[^a-zA-ZÀ-ÿ])/g) || []).length;
   count.averageWordLength = count.characters / count.words;
+  count.longestWord = findLongestWords(text.match(/[a-zA-ZÀ-ÿ]+(?:'[a-z]+)?/gi) || []);
 
   return count;
 }
