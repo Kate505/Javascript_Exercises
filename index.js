@@ -41,7 +41,15 @@ const btnClick = () => {
   const count = wordCounter(text);
 
   document.getElementById('words-count').textContent = count.words;
-  document.getElementById('average-word-size').textContent = count.averageWordLength.toFixed(2);
+  document.getElementById('average-word-size').textContent = count.averageWordLength > 0 ? count.averageWordLength.toFixed(2) : '0';
   document.getElementById('sentences-count').textContent = count.sentences;
   document.getElementById('longest-word').textContent = count.longestWord.length > 0 ? count.longestWord : 'None';
+}
+
+const btnClean = () => {
+  document.getElementById('text').textContent = '';
+  document.getElementById('words-count').textContent = '0';
+  document.getElementById('average-word-size').textContent = '0';
+  document.getElementById('sentences-count').textContent = '0';
+  document.getElementById('longest-word').textContent = 'None';
 }
